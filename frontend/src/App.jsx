@@ -12,6 +12,14 @@ import Dashboard from "./pages/user/Dashboard";
 
 import KelolaBerita from "./pages/admin/KelolaBerita";
 
+import AdminLayout from "./layouts/AdminLayout";
+
+import DashboardAdmin from "./pages/admin/DashboardAdmin";
+
+import KelolaPPDB from "./pages/admin/KelolaPPDB";
+
+import KelolaGaleri from "./pages/admin/KelolaGaleri";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -34,7 +42,15 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/admin/berita" element={<KelolaBerita />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<DashboardAdmin />} />
+
+          <Route path="ppdb" element={<KelolaPPDB />} />
+
+          <Route path="berita" element={<KelolaBerita />} />
+
+          <Route path="galeri" element={<KelolaGaleri />} />
+        </Route>
       </Routes>
 
       <Footer />

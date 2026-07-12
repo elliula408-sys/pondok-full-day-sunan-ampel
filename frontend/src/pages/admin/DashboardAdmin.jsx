@@ -1,22 +1,31 @@
 function DashboardAdmin() {
   return (
-    <div className="container mt-5">
-      <h1>Dashboard Admin</h1>
+    <>
+      <h2>Dashboard Admin</h2>
 
-      <div className="row">
+      <div className="row mt-4">
         <div className="col-md-4">
-          <div className="card p-3">Total Pendaftar</div>
+          <div className="card shadow p-3">
+            <h5>Total Pendaftar</h5>
+            <h2>0</h2>
+          </div>
         </div>
 
         <div className="col-md-4">
-          <div className="card p-3">Total Berita</div>
+          <div className="card shadow p-3">
+            <h5>Total Berita</h5>
+            <h2>0</h2>
+          </div>
         </div>
 
         <div className="col-md-4">
-          <div className="card p-3">Total Galeri</div>
+          <div className="card shadow p-3">
+            <h5>Total Galeri</h5>
+            <h2>0</h2>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
