@@ -10,6 +10,8 @@ import Register from "./pages/auth/Register";
 
 import Dashboard from "./pages/user/Dashboard";
 
+import KelolaBerita from "./pages/admin/KelolaBerita";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/admin/berita" element={<KelolaBerita />} />
       </Routes>
 
       <Footer />
