@@ -2,20 +2,58 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-success">
+    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand fw-bold text-success" to="/">
           Pondok Full Day Sunan Ampel
         </Link>
 
-        <div>
-          <Link to="/login" className="btn btn-light me-2">
-            Login
-          </Link>
+        <button
+          className="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#menu"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-          <Link to="/register" className="btn btn-primary">
-            Register
-          </Link>
+        <div className="collapse navbar-collapse" id="menu">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">
+                Beranda
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/profil">
+                Profil
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/berita">
+                Berita
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/galeri">
+                Galeri
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/kontak">
+                Kontak
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="btn btn-success ms-2" to="/login">
+                PPDB Online
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

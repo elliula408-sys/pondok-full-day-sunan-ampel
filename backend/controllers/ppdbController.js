@@ -73,7 +73,16 @@ const daftarPPDB = (req, res) => {
       akta,
     ],
     (err, result) => {
-      if (err) return res.status(500).json(err);
+      if (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({
+            success: false,
+            message: "Gagal menyimpan data PPDB",
+            error: err.message,
+          });
+      }
 
       res.json({
         message: "Pendaftaran berhasil",
