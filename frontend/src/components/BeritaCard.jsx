@@ -14,8 +14,12 @@ function BeritaCard({ berita }) {
 
       <div className="card-body">
         <h5>{berita.judul}</h5>
+        <p className="text-muted">
+          {new Date(berita.created_at).toLocaleDateString("id-ID")}
+        </p>
+        <p>{berita.isi?.replace(/<[^>]+>/g, "").substring(0, 120)}...</p>
 
-        <Link to={`/berita/${berita.id}`} className="btn btn-success">
+        <Link to={`/berita/${berita.slug}`} className="btn btn-success">
           Baca Selengkapnya
         </Link>
       </div>

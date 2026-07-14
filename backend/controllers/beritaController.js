@@ -30,16 +30,6 @@ const getBerita = (req, res) => {
   });
 };
 
-const detailBerita = (req, res) => {
-  const { id } = req.params;
-
-  db.query("SELECT * FROM berita WHERE id=?", [id], (err, result) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(result[0]);
-  });
-};
-
 const hapusBerita = (req, res) => {
   const { id } = req.params;
 
@@ -52,9 +42,27 @@ const hapusBerita = (req, res) => {
   });
 };
 
+const getDetailBerita = (req, res) => {
+  const { slug } = req.params;
+
+  const sql = "SELECT * FROM berita WHERE slug=?";
+
+  db.query(sql, [slug], (err, result) => {
+    if (err) return res.status(500).json(err);
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "Berita tidak ditemukan",
+      });
+    }
+
+    res.json(result[0]);
+  });
+};
+
 module.exports = {
   tambahBerita,
   getBerita,
-  detailBerita,
+  getDetailBerita,
   hapusBerita,
 };

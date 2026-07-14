@@ -2,10 +2,16 @@ const express = require("express");
 
 const router = express.Router();
 
+router.get("/test", (req, res) => {
+  res.json({
+    status: "OK",
+  });
+});
+
 const {
   tambahBerita,
   getBerita,
-  detailBerita,
+  getDetailBerita,
   hapusBerita,
 } = require("../controllers/beritaController");
 
@@ -15,7 +21,7 @@ router.post("/", upload.single("thumbnail"), tambahBerita);
 
 router.get("/", getBerita);
 
-router.get("/:id", detailBerita);
+router.get("/slug/:slug", getDetailBerita);
 
 router.delete("/:id", hapusBerita);
 

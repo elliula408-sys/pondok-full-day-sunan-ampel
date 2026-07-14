@@ -37,7 +37,7 @@ function App() {
 
         <Route path="/berita" element={<Berita />} />
 
-        <Route path="/berita/:id" element={<DetailBerita />} />
+        <Route path="/berita/:slug" element={<DetailBerita />} />
 
         <Route path="/galeri" element={<Galeri />} />
 
