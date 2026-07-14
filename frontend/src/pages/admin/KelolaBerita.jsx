@@ -1,31 +1,51 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import AdminLayout from "../../layouts/AdminLayout";
 
 function KelolaBerita() {
   const [berita, setBerita] = useState([]);
 
   const [judul, setJudul] = useState("");
+  const [slug, setSlug] = useState("");
   const [isi, setIsi] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
 
-  // Ambil semua berita
+  useEffect(() => {
+    getBerita();
+  }, []);
+
+  // Generate slug otomatis
+  const generateSlug = (text) => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-");
+  };
+
+  const handleJudulChange = (e) => {
+    const value = e.target.value;
+
+    setJudul(value);
+    setSlug(generateSlug(value));
+  };
+
   const getBerita = async () => {
     try {
       const res = await api.get("/berita");
       setBerita(res.data);
     } catch (error) {
       console.error(error);
-      alert("Gagal mengambil data berita");
     }
   };
 
-  // Tambah berita
   const tambahBerita = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
 
     formData.append("judul", judul);
+    formData.append("slug", slug);
     formData.append("isi", isi);
 
     if (thumbnail) {
@@ -42,10 +62,10 @@ function KelolaBerita() {
       alert("Berita berhasil ditambahkan");
 
       setJudul("");
+      setSlug("");
       setIsi("");
       setThumbnail(null);
 
-      // Reset input file
       document.getElementById("thumbnail").value = "";
 
       getBerita();
@@ -55,11 +75,8 @@ function KelolaBerita() {
     }
   };
 
-  // Hapus berita
   const hapusBerita = async (id) => {
-    const konfirmasi = window.confirm("Yakin ingin menghapus berita ini?");
-
-    if (!konfirmasi) return;
+    if (!window.confirm("Yakin ingin menghapus berita ini?")) return;
 
     try {
       await api.delete(`/berita/${id}`);
@@ -73,16 +90,12 @@ function KelolaBerita() {
     }
   };
 
-  useEffect(() => {
-    getBerita();
-  }, []);
-
   return (
-    <div className="container mt-4">
+    <AdminLayout>
       <h2 className="mb-4">Kelola Berita Pondok</h2>
 
-      {/* FORM TAMBAH BERITA */}
-      <div className="card mb-4">
+      {/* FORM TAMBAH */}
+      <div className="card shadow-sm mb-4">
         <div className="card-header bg-success text-white">Tambah Berita</div>
 
         <div className="card-body">
@@ -93,10 +106,20 @@ function KelolaBerita() {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Masukkan Judul Berita"
                 value={judul}
-                onChange={(e) => setJudul(e.target.value)}
+                onChange={handleJudulChange}
                 required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Slug</label>
+
+              <input
+                type="text"
+                className="form-control"
+                value={slug}
+                readOnly
               />
             </div>
 
@@ -106,7 +129,6 @@ function KelolaBerita() {
               <textarea
                 className="form-control"
                 rows="6"
-                placeholder="Masukkan Isi Berita"
                 value={isi}
                 onChange={(e) => setIsi(e.target.value)}
                 required
@@ -133,20 +155,21 @@ function KelolaBerita() {
         </div>
       </div>
 
-      {/* TABEL BERITA */}
-      <div className="card">
+      {/* TABEL */}
+      <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">Daftar Berita</div>
 
         <div className="card-body">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle">
+            <table className="table table-bordered table-hover align-middle">
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Thumbnail</th>
                   <th>Judul</th>
+                  <th>Slug</th>
                   <th>Tanggal</th>
-                  <th width="120">Aksi</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
 
@@ -157,21 +180,28 @@ function KelolaBerita() {
                       <td>{index + 1}</td>
 
                       <td>
-                        {item.thumbnail ? (
+                        {item.thumbnail && (
                           <img
                             src={`http://localhost:5000/uploads/${item.thumbnail}`}
                             alt={item.judul}
                             width="100"
+                            className="rounded"
                           />
-                        ) : (
-                          "-"
                         )}
                       </td>
 
                       <td>{item.judul}</td>
 
                       <td>
-                        {new Date(item.created_at).toLocaleDateString("id-ID")}
+                        <small>{item.slug}</small>
+                      </td>
+
+                      <td>
+                        {item.created_at
+                          ? new Date(item.created_at).toLocaleDateString(
+                              "id-ID",
+                            )
+                          : "-"}
                       </td>
 
                       <td>
@@ -186,7 +216,7 @@ function KelolaBerita() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center">
+                    <td colSpan="6" className="text-center">
                       Belum ada berita
                     </td>
                   </tr>
@@ -196,7 +226,7 @@ function KelolaBerita() {
           </div>
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
 

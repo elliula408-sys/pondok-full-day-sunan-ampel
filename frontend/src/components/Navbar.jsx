@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { FaUser, FaUserPlus, FaLock } from "react-icons/fa";
+
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -49,8 +51,20 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              <Link className="btn btn-success ms-2" to="/login">
-                PPDB Online
+              <Link className="btn btn-outline-success ms-2" to="/login">
+                <FaUser /> Login
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="btn btn-success ms-2" to="/register">
+                <FaUserPlus /> Register
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="btn btn-dark ms-2" to="/admin/login">
+                <FaLock /> Admin
               </Link>
             </li>
           </ul>

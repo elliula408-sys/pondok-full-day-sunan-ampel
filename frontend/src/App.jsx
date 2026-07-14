@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import PublicLayout from "./layouts/PublicLayout";
 
 import Home from "./pages/public/Home";
 import Profil from "./pages/public/Profil";
@@ -16,36 +15,92 @@ import Register from "./pages/auth/Register";
 import Dashboard from "./pages/user/Dashboard";
 import Pendaftaran from "./pages/user/Pendaftaran";
 import DashboardUser from "./pages/user/DashboardUser";
+import InformasiPPDB from "./pages/user/InformasiPPDB";
 
-import AdminLayout from "./layouts/AdminLayout";
+import LoginAdmin from "./pages/admin/LoginAdmin";
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
 import KelolaBerita from "./pages/admin/KelolaBerita";
 import KelolaPPDB from "./pages/admin/KelolaPPDB";
 import KelolaGaleri from "./pages/admin/KelolaGaleri";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <PublicLayout>
+              <Home />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/profil" element={<Profil />} />
+        <Route
+          path="/profil"
+          element={
+            <PublicLayout>
+              <Profil />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/berita" element={<Berita />} />
+        <Route
+          path="/berita"
+          element={
+            <PublicLayout>
+              <Berita />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/berita/:slug" element={<DetailBerita />} />
+        <Route
+          path="/berita/:slug"
+          element={
+            <PublicLayout>
+              <DetailBerita />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/galeri" element={<Galeri />} />
+        <Route
+          path="/galeri"
+          element={
+            <PublicLayout>
+              <Galeri />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/kontak" element={<Kontak />} />
+        <Route
+          path="/kontak"
+          element={
+            <PublicLayout>
+              <Kontak />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <PublicLayout>
+              <Login />
+            </PublicLayout>
+          }
+        />
 
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={
+            <PublicLayout>
+              <Register />
+            </PublicLayout>
+          }
+        />
 
         <Route
           path="/dashboard"
@@ -73,18 +128,53 @@ function App() {
           }
         />
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<DashboardAdmin />} />
+        <Route
+          path="/informasi"
+          element={
+            <ProtectedRoute>
+              <InformasiPPDB />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route path="ppdb" element={<KelolaPPDB />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <DashboardAdmin />
+            </AdminProtectedRoute>
+          }
+        />
 
-          <Route path="berita" element={<KelolaBerita />} />
+        <Route
+          path="/admin/ppdb"
+          element={
+            <AdminProtectedRoute>
+              <KelolaPPDB />
+            </AdminProtectedRoute>
+          }
+        />
 
-          <Route path="galeri" element={<KelolaGaleri />} />
-        </Route>
+        <Route
+          path="/admin/berita"
+          element={
+            <AdminProtectedRoute>
+              <KelolaBerita />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/galeri"
+          element={
+            <AdminProtectedRoute>
+              <KelolaGaleri />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route path="/admin/login" element={<LoginAdmin />} />
       </Routes>
-
-      <Footer />
     </BrowserRouter>
   );
 }

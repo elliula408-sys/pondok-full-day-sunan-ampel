@@ -1,55 +1,70 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function AdminLayout() {
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  };
+import {
+  FaHome,
+  FaNewspaper,
+  FaImages,
+  FaUsers,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
+function AdminLayout({ children }) {
   return (
     <div className="d-flex">
       <div
+        className="bg-success text-white p-3"
         style={{
           width: "250px",
           minHeight: "100vh",
-          background: "#198754",
-          color: "white",
         }}
       >
-        <div className="p-3">
-          <h4>Pondok Admin</h4>
-        </div>
+        <h4>Admin Pondok</h4>
 
-        <ul className="list-group list-group-flush">
-          <Link to="/admin" className="list-group-item">
-            Dashboard
-          </Link>
+        <hr />
 
-          <Link to="/admin/ppdb" className="list-group-item">
-            Kelola PPDB
-          </Link>
+        <Link className="d-block text-white mb-3" to="/admin">
+          <>
+            <FaHome /> Dashboard
+          </>
+        </Link>
 
-          <Link to="/admin/berita" className="list-group-item">
-            Kelola Berita
-          </Link>
+        <Link className="d-block text-white mb-3" to="/admin/ppdb">
+          <>
+            <FaUsers /> PPDB
+          </>
+        </Link>
 
-          <Link to="/admin/galeri" className="list-group-item">
-            Kelola Galeri
-          </Link>
+        <Link className="d-block text-white mb-3" to="/admin/berita">
+          <>
+            <FaNewspaper /> Berita
+          </>
+        </Link>
 
-          <button className="btn btn-danger m-3" onClick={logout}>
-            Logout
-          </button>
-        </ul>
+        <Link className="d-block text-white mb-3" to="/admin/galeri">
+          <>
+            <FaImages /> Galeri
+          </>
+        </Link>
+
+        <button
+          className="btn btn-danger w-100 mt-4"
+          onClick={() => {
+            localStorage.removeItem("adminToken");
+
+            window.location.href = "/admin/login";
+          }}
+        >
+          Logout
+        </button>
       </div>
 
       <div
+        className="p-4"
         style={{
           flex: 1,
-          padding: "20px",
         }}
       >
-        <Outlet />
+        {children}
       </div>
     </div>
   );

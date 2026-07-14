@@ -1,45 +1,28 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
-import logo from "../../assets/images/logo.png";
+import { FaUserShield, FaUser, FaLock } from "react-icons/fa";
 
-import api from "../../services/api";
-
-function Login() {
+function LoginAdmin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
-  const login = async (e) => {
+  const submitLogin = (e) => {
     e.preventDefault();
 
-    setLoading(true);
+    if (username === "admin" && password === "admin123") {
+      localStorage.setItem("adminToken", "login");
 
-    try {
-      const res = await api.post("/auth/login", {
-        username,
-        password,
-      });
-
-      localStorage.setItem("token", res.data.token);
-
-      alert("Login berhasil");
-
-      window.location.href = "/dashboard";
-    } catch (error) {
-      alert(error.response?.data?.message || "Username atau password salah");
-    } finally {
-      setLoading(false);
+      window.location.href = "/admin";
+    } else {
+      alert("Username atau Password salah");
     }
   };
 
   return (
     <div
-      className="d-flex align-items-center justify-content-center"
+      className="d-flex justify-content-center align-items-center"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg,#198754,#0d6efd)",
+        background: "linear-gradient(135deg, #198754, #0d6efd)",
       }}
     >
       <div
@@ -51,14 +34,14 @@ function Login() {
       >
         <div className="card-body p-5">
           <div className="text-center mb-4">
-            <img src={logo} alt="Logo Pondok" width="90" />
+            <FaUserShield size={70} className="text-success" />
 
-            <h2 className="fw-bold text-success mt-3">Login PPDB</h2>
+            <h2 className="mt-3 fw-bold text-success">Login Admin</h2>
 
             <p className="text-muted">Pondok Full Day Sunan Ampel</p>
           </div>
 
-          <form onSubmit={login}>
+          <form onSubmit={submitLogin}>
             <div className="mb-3">
               <label className="form-label">Username</label>
 
@@ -97,34 +80,15 @@ function Login() {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-success w-100"
-              disabled={loading}
-            >
-              {loading ? (
-                "Memproses..."
-              ) : (
-                <>
-                  <FaSignInAlt className="me-2" />
-                  Login
-                </>
-              )}
+            <button type="submit" className="btn btn-success w-100">
+              Login Admin
             </button>
           </form>
 
           <div className="text-center mt-4">
-            <p>Belum punya akun?</p>
-
-            <Link to="/register" className="btn btn-outline-success">
-              Register Sekarang
-            </Link>
-          </div>
-
-          <div className="text-center mt-3">
-            <Link to="/" className="text-decoration-none">
-              ← Kembali ke Beranda
-            </Link>
+            <a href="/" className="text-decoration-none">
+              ← Kembali ke Website
+            </a>
           </div>
         </div>
       </div>
@@ -132,4 +96,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginAdmin;

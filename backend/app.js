@@ -10,6 +10,7 @@ const testRoutes = require("./routes/testRoutes");
 const beritaRoutes = require("./routes/beritaRoutes");
 const galeriRoutes = require("./routes/galeriRoutes");
 const ppdbRoutes = require("./routes/ppdbRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/api/test", testRoutes);
 app.use("/api/berita", beritaRoutes);
 app.use("/api/galeri", galeriRoutes);
 app.use("/api/ppdb", ppdbRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.send("API Pondok Full Day Sunan Ampel");
