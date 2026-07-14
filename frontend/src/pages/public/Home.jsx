@@ -23,9 +23,24 @@ function Home() {
   return (
     <>
       <HeroSlider />
+      <section>
+        <div className="container text-center">
+          <h2>Selamat Datang</h2>
+
+          <p>
+            Pondok Full Day Sunan Ampel merupakan lembaga pendidikan Islam yang
+            mengintegrasikan pendidikan formal, pesantren dan pembentukan
+            karakter Islami.
+          </p>
+        </div>
+      </section>
 
       <div className="container mt-5">
-        <h2 className="mb-4">Berita Terbaru</h2>
+        <div className="text-center mb-5">
+          <h2>Berita Terbaru</h2>
+
+          <p>Informasi terbaru Pondok Full Day Sunan Ampel</p>
+        </div>
 
         <div className="row">
           {berita.map((item) => (
