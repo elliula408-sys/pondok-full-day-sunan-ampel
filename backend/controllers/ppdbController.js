@@ -75,13 +75,11 @@ const daftarPPDB = (req, res) => {
     (err, result) => {
       if (err) {
         console.error(err);
-        return res
-          .status(500)
-          .json({
-            success: false,
-            message: "Gagal menyimpan data PPDB",
-            error: err.message,
-          });
+        return res.status(500).json({
+          success: false,
+          message: "Gagal menyimpan data PPDB",
+          error: err.message,
+        });
       }
 
       res.json({
@@ -109,6 +107,24 @@ const getSemuaPPDB = (req, res) => {
   });
 };
 
+const getDetailPPDB = (req, res) => {
+  const { id } = req.params;
+
+  db.query("SELECT * FROM ppdb WHERE id=?", [id], (err, result) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "Data tidak ditemukan",
+      });
+    }
+
+    res.json(result[0]);
+  });
+};
+
 const updateStatus = (req, res) => {
   const { id } = req.params;
 
@@ -123,9 +139,99 @@ const updateStatus = (req, res) => {
   });
 };
 
+const updatePPDB = (req, res) => {
+  const { id } = req.params;
+
+  const {
+    nik,
+    nisn,
+    nama_lengkap,
+    tempat_lahir,
+    tanggal_lahir,
+    jenis_kelamin,
+    alamat,
+    sekolah_asal,
+    no_telp,
+    nama_ayah,
+    pekerjaan_ayah,
+    nama_ibu,
+    pekerjaan_ibu,
+    telp_ortu,
+    status,
+  } = req.body;
+
+  const sql = `
+  UPDATE ppdb SET
+  nik=?,
+  nisn=?,
+  nama_lengkap=?,
+  tempat_lahir=?,
+  tanggal_lahir=?,
+  jenis_kelamin=?,
+  alamat=?,
+  sekolah_asal=?,
+  no_telp=?,
+  nama_ayah=?,
+  pekerjaan_ayah=?,
+  nama_ibu=?,
+  pekerjaan_ibu=?,
+  telp_ortu=?,
+  status=?
+  WHERE id=?
+  `;
+
+  db.query(
+    sql,
+    [
+      nik,
+      nisn,
+      nama_lengkap,
+      tempat_lahir,
+      tanggal_lahir,
+      jenis_kelamin,
+      alamat,
+      sekolah_asal,
+      no_telp,
+      nama_ayah,
+      pekerjaan_ayah,
+      nama_ibu,
+      pekerjaan_ibu,
+      telp_ortu,
+      status,
+      id,
+    ],
+    (err) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+
+      res.json({
+        message: "Data berhasil diperbarui",
+      });
+    },
+  );
+};
+
+const hapusPPDB = (req, res) => {
+  const { id } = req.params;
+
+  db.query("DELETE FROM ppdb WHERE id=?", [id], (err) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    res.json({
+      message: "Data berhasil dihapus",
+    });
+  });
+};
+
 module.exports = {
   daftarPPDB,
   getPPDBUser,
   getSemuaPPDB,
+  getDetailPPDB,
   updateStatus,
+  updatePPDB,
+  hapusPPDB,
 };

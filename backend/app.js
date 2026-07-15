@@ -10,6 +10,7 @@ const testRoutes = require("./routes/testRoutes");
 const beritaRoutes = require("./routes/beritaRoutes");
 const galeriRoutes = require("./routes/galeriRoutes");
 const ppdbRoutes = require("./routes/ppdbRoutes");
+const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
@@ -23,6 +24,7 @@ app.use("/api/test", testRoutes);
 app.use("/api/berita", beritaRoutes);
 app.use("/api/galeri", galeriRoutes);
 app.use("/api/ppdb", ppdbRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {

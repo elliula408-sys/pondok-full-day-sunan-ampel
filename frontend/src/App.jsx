@@ -19,9 +19,12 @@ import InformasiPPDB from "./pages/user/InformasiPPDB";
 
 import LoginAdmin from "./pages/admin/LoginAdmin";
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
+import KelolaUser from "./pages/admin/KelolaUser";
 import KelolaBerita from "./pages/admin/KelolaBerita";
 import KelolaPPDB from "./pages/admin/KelolaPPDB";
+import EditPPDB from "./pages/admin/EditPPDB";
 import KelolaGaleri from "./pages/admin/KelolaGaleri";
+import DetailPPDB from "./pages/admin/DetailPPDB";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
@@ -147,10 +150,28 @@ function App() {
         />
 
         <Route
+          path="/admin/users"
+          element={
+            <AdminProtectedRoute>
+              <KelolaUser />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
           path="/admin/ppdb"
           element={
             <AdminProtectedRoute>
               <KelolaPPDB />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/ppdb/edit/:id"
+          element={
+            <AdminProtectedRoute>
+              <EditPPDB />
             </AdminProtectedRoute>
           }
         />
@@ -169,6 +190,15 @@ function App() {
           element={
             <AdminProtectedRoute>
               <KelolaGaleri />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/ppdb/:id"
+          element={
+            <AdminProtectedRoute>
+              <DetailPPDB />
             </AdminProtectedRoute>
           }
         />

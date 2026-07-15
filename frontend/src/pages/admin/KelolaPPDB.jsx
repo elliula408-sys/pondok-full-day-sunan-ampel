@@ -5,9 +5,18 @@ import AdminLayout from "../../layouts/AdminLayout";
 function KelolaPPDB() {
   const [data, setData] = useState([]);
 
+  const [keyword, setKeyword] = useState("");
+
   useEffect(() => {
     getPPDB();
   }, []);
+
+  const filteredData = data.filter(
+    (item) =>
+      item.nama_lengkap?.toLowerCase().includes(keyword.toLowerCase()) ||
+      item.nik?.includes(keyword) ||
+      item.nisn?.includes(keyword),
+  );
 
   const getPPDB = async () => {
     try {
@@ -35,9 +44,39 @@ function KelolaPPDB() {
     }
   };
 
+  const hapusData = async (id) => {
+    const konfirmasi = window.confirm("Yakin ingin menghapus data ini?");
+
+    if (!konfirmasi) return;
+
+    try {
+      await api.delete(`/ppdb/${id}`);
+
+      alert("Data berhasil dihapus");
+
+      getPPDB();
+    } catch (error) {
+      console.error(error);
+
+      alert("Gagal menghapus data");
+    }
+  };
+
   return (
     <AdminLayout>
       <h2 className="mb-4">Kelola Data PPDB</h2>
+
+      <div className="card mb-3">
+        <div className="card-body">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Cari Nama, NIK atau NISN..."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+        </div>
+      </div>
 
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
@@ -56,13 +95,13 @@ function KelolaPPDB() {
                   <th>Sekolah Asal</th>
                   <th>No HP</th>
                   <th>Status</th>
-                  <th width="180">Aksi</th>
+                  <th width="320">Aksi</th>
                 </tr>
               </thead>
 
               <tbody>
                 {data.length > 0 ? (
-                  data.map((item, index) => (
+                  filteredData.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
 
@@ -89,19 +128,48 @@ function KelolaPPDB() {
                       </td>
 
                       <td>
-                        <button
-                          className="btn btn-success btn-sm me-2"
-                          onClick={() => updateStatus(item.id, "Diterima")}
-                        >
-                          Terima
-                        </button>
+                        <div className="d-flex mb-2">
+                          <button
+                            className="btn btn-info btn-sm me-2"
+                            onClick={() =>
+                              (window.location.href = `/admin/ppdb/${item.id}`)
+                            }
+                          >
+                            Detail
+                          </button>
 
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={() => updateStatus(item.id, "Ditolak")}
-                        >
-                          Tolak
-                        </button>
+                          <button
+                            className="btn btn-warning btn-sm"
+                            onClick={() =>
+                              (window.location.href = `/admin/ppdb/edit/${item.id}`)
+                            }
+                          >
+                            Edit
+                          </button>
+                        </div>
+
+                        <div className="d-flex">
+                          <button
+                            className="btn btn-success btn-sm me-2"
+                            onClick={() => updateStatus(item.id, "Diterima")}
+                          >
+                            Terima
+                          </button>
+
+                          <button
+                            className="btn btn-danger btn-sm me-2"
+                            onClick={() => updateStatus(item.id, "Ditolak")}
+                          >
+                            Tolak
+                          </button>
+
+                          <button
+                            className="btn btn-dark btn-sm"
+                            onClick={() => hapusData(item.id)}
+                          >
+                            Hapus
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
